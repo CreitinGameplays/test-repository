@@ -13,7 +13,7 @@ void makeVec(int_vector* vec) {
     vec->capacity = 4;
     vec->size = 0;
     vec->data = malloc(vec->capacity * sizeof(int));
-    if (vec->data == NULL) {
+    if (!vec->data) {
         fputs("Criminal error", stderr);
         exit(EXIT_FAILURE);
     }
