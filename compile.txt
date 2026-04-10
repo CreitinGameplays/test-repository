@@ -1,0 +1,5 @@
+# with asan
+clang.exe -g -O0 -fno-omit-frame-pointer -fsanitize=address -std=c23 -Wall -Wextra -Wpedantic .\src\kingTesyTheTerrible.c -o main.exe
+
+#no asan
+clang.exe -g -O0 -fno-omit-frame-pointer -std=c23 -Wall -Wextra -Wpedantic .\src\kingTesyTheTerrible.c -o main.exe
