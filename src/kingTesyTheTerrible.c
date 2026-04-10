@@ -44,6 +44,7 @@ void vecFree(int_vector* vec){
 int main() {
     int_vector myVec;
     makeVec(&myVec);
+    char typedshi[100];
 
     addToVec(&myVec, 10);
     addToVec(&myVec, 20);
@@ -52,10 +53,14 @@ int main() {
     printf("Value 2: %d \n", myVec.data[1]);
 
     char** x = malloc(20);
-    x[0] = "someone";
+    x[0] = "dog";
     x[1] = "crow";
     printf("%s\n", x[0]);
     printf("%s\n", x[1]);
+
+    printf("type shi: ");
+    scanf("%s", typedshi);
+    printf("U typed %s\n", typedshi);
 
     // while(-1) _sleep(1024);
     free(x);
