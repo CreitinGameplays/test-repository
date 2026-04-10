@@ -24,7 +24,7 @@ void addBack(strArray* array, char* value){
     if (array->capacity == array->size){
         array->capacity *= 2;
         char** tmp = realloc(array->data, array->capacity * sizeof(char*));
-        if (!array->data){
+        if (!tmp){
             fputs("Wild realloc error happened.\n", stderr);
             exit(EXIT_FAILURE);
         };
@@ -39,6 +39,8 @@ int main() {
     makeArray(&myArray);
     addBack(&myArray, "test one");
     addBack(&myArray, "test two");
+
+    printf("%s\n", myArray.data[0]);
     printf("%s\n", myArray.data[1]);
 
     // end
