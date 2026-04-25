@@ -1,2 +1,2 @@
-# test-repository
+# test
 random C/C++ code

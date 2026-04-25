@@ -3,3 +3,6 @@ clang.exe -g -O0 -fno-omit-frame-pointer -fsanitize=address -std=c23 -Wall -Wext
 
 #no asan
 clang.exe -g -O0 -fno-omit-frame-pointer -std=c23 -Wall -Wextra -Wpedantic .\src\kingTesyTheTerrible.c -o main.exe
+
+# with pisscurses
+clang.exe -I C:\msys64\mingw64\include -g -O0 -fno-omit-frame-pointer -fsanitize=address -std=c23 -Wall -Wextra -Wpedantic .\dick.c -o main.exe C:\msys64\mingw64\lib\pdcurses.a
