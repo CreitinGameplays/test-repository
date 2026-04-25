@@ -10,6 +10,6 @@ int main(){
     "kind enough to smash your "
     "computer with a hammer";
 
-    MessageBox(NULL, text, "Virus Alert !", MB_OK | MB_OKCANCEL | MB_ICONERROR);
+    MessageBox(NULL, text, "Virus Alert !", MB_OKCANCEL | MB_ICONERROR);
     return 0;
 }
