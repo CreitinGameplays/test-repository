@@ -9,6 +9,6 @@ int main(){
     "kind enough to smash your "
     "computer with a hammer";
 
-    MessageBox(NULL, text, "Azerbaijan virus", MB_OK | MB_ICONERROR);
+    MessageBox(NULL, text, "Virus Alert !", MB_OK | MB_ICONERROR);
     return 1; // its an error
 }
