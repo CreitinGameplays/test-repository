@@ -1,6 +1,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <print>
+#include <memory>
 
 // declaration
 void parseInfo(std::string jsonstr){
@@ -20,20 +22,21 @@ void parseInfo(std::string jsonstr){
         start++;
     }
 
-    std::cout << "Latest stable linux kernel version: " << finalValue << "\n";
+    std::println("Latest stable linux kernel version: {}", finalValue);
 }
 
+// better cmd function
 std::string cmd(std::string command){
-    char b[256]; // the buffer
+    std::array<char, 256> b; // buffer
     std::string final_output = "";
-    FILE* file = popen(command.c_str(), "r"); // "r" = read
+    std::unique_ptr<FILE, decltype(&pclose)> file(popen(command.c_str(), "r"), pclose); // pipe
+
     if (!file){
         throw std::runtime_error("Insane error on cmd()! Popen error.\n"); 
     }
-    while(fgets(b, sizeof(b), file) != NULL){
-        final_output += b; // append to the variable
+    while(fgets(b.data(), b.size(), file.get()) != nullptr){
+        final_output += b.data(); // append to the variable
     }
-    pclose(file);
     return final_output;
 }
 
@@ -41,9 +44,9 @@ std::string cmd(std::string command){
 namespace linuxInfo{
     int returnData(){
         // lazy curl
-        #ifdef _WIN32
+        #if defined(_WIN32)
         std::string command = cmd("curl.exe -sS https://www.kernel.org/releases.json");
-        #else defined(__linux__)
+        #elif defined(__linux__)
         std::string command = cmd("curl -sS https://www.kernel.org/releases.json");
         #endif
         parseInfo(command);
@@ -56,7 +59,7 @@ int main(void){
     try{
         linuxInfo::returnData();
     } catch (const std::exception &e){
-        std::cerr << "Error: " << e.what() << "\n";
+        std::println("Error: {}", e.what());
         return EXIT_FAILURE;
     }
     return 0;
