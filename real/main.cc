@@ -4,8 +4,32 @@
 #include <print>
 #include <memory>
 
+struct Linux {
+    std::string Version;
+};
+
+// declare shit
+std::string cmd(std::string command);
+void parseInfo(std::string jsonstr, Linux &v);
+
+// get data
+namespace linuxInfo{
+    Linux v;
+    std::string returnData(){
+        // lazy curl
+        #if defined(_WIN32)
+        std::string command = cmd("curl.exe -sS https://www.kernel.org/releases.json");
+        #elif defined(__linux__)
+        std::string command = cmd("curl -sS https://www.kernel.org/releases.json");
+        #endif
+        parseInfo(command, v);
+        return v.Version;
+    }
+};
+
 // declaration
-void parseInfo(std::string jsonstr){
+void parseInfo(std::string jsonstr, Linux &v){
+    // very hardcoded way to find the version, don't do this at home
     size_t findName = jsonstr.find("latest_stable");
     if (findName == std::string::npos) throw std::runtime_error("Could not find latest_stable.\n");
     size_t findVersion = jsonstr.find("version", findName);
@@ -21,8 +45,7 @@ void parseInfo(std::string jsonstr){
         finalValue += jsonstr[start];
         start++;
     }
-
-    std::println("Latest stable linux kernel version: {}", finalValue);
+    v.Version = finalValue; // now the fucking struct will hold the fucking value we fucking extracted
 }
 
 // better cmd function
@@ -40,24 +63,11 @@ std::string cmd(std::string command){
     return final_output;
 }
 
-// get data
-namespace linuxInfo{
-    int returnData(){
-        // lazy curl
-        #if defined(_WIN32)
-        std::string command = cmd("curl.exe -sS https://www.kernel.org/releases.json");
-        #elif defined(__linux__)
-        std::string command = cmd("curl -sS https://www.kernel.org/releases.json");
-        #endif
-        parseInfo(command);
-        return 0;
-    }
-};
-
 // main function
 int main(void){
     try{
-        linuxInfo::returnData();
+        std::string final = linuxInfo::returnData();
+        std::println("Latest stable linux kernel version: {}", final);
     } catch (const std::exception &e){
         std::println("Error: {}", e.what());
         return EXIT_FAILURE;
